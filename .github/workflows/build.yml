@@ -19,7 +19,7 @@ jobs:
 
       # 2. CMake'ni sozlash va yig'ish
       - name: Set up CMake
-        uses: lukka/get-cmake@v3
+        uses: lukka/get-cmake@v2
 
       - name: Build Plugin
         run: |
