@@ -13,24 +13,29 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # 1. Repositoryni klonlash
+      # 1. Repozitoriyani klonlash
       - name: Checkout repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
-      # 2. CMake'ni sozlash va yig'ish
+      # 2. Visual Studio-ni sozlash
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      # 3. CMake ni sozlash
       - name: Set up CMake
-        uses: lukka/get-cmake@v1
+        uses: lukka/get-cmake@v2
 
+      # 4. OBS Studio va CMake build jarayonini ishga tushirish
       - name: Build Plugin
         run: |
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 16 2019" -A x64
+          cmake -G "Visual Studio 16 2019" -A x64 ..
           cmake --build . --config Release
 
-      # 3. Yig'ilgan fayllarni saqlash
+      # 5. Build natijalarini saqlash
       - name: Upload Plugin Artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: obs-plugin-build
           path: build/Release
